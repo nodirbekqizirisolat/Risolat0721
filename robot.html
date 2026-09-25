@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot loyihasi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>🤖 Mening Robotim</h1>
+
+    <div class="game">
+        <div class="robot" id="robot">
+            <div class="head">
+                <div class="eye"></div>
+                <div class="eye"></div>
+            </div>
+
+            <div class="body">
+                <div class="screen">ROBOT</div>
+            </div>
+
+            <div class="legs">
+                <div class="leg"></div>
+                <div class="leg"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button onclick="move('up')">⬆️</button>
+
+        <div>
+            <button onclick="move('left')">⬅️</button>
+            <button onclick="move('down')">⬇️</button>
+            <button onclick="move('right')">➡️</button>
+        </div>
+    </div>
+
+    <p id="message">Robotni boshqarish uchun tugmalardan foydalaning.</p>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
