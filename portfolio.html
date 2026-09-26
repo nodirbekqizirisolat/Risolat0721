@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Risolat — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,ital@9..144,400,1,9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#000000; --bg2:#000000;
+  --glow1:#7c3aed; --glow2:#db2777; --glow3:#4c1d95;
+  --paper:#0c0c0c; --paper-shade:#000000; --ink:#ffffff; --ink-soft:#c9c3b6;
+  --gold:#e0b04a; --gold-soft:#f7dea0;
+  --serif:'Fraunces',serif; --sans:'Inter',system-ui,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){ --bg:#1c1230; --bg2:#241638; }
+}
+:root[data-theme="dark"]{ --bg:#120a1e; --bg2:#1b1030; }
+html{ scroll-padding-top:env(safe-area-inset-top,0px); height:100%; }
+*{ margin:0; padding:0; box-sizing:border-box; }
+body{
+  height:100%; min-height:100vh; background:var(--bg); color:var(--ink);
+  font-family:var(--sans); overflow:hidden; position:relative;
+}
+
+.aura{ position:fixed; inset:0; z-index:0; overflow:hidden; background:var(--bg); }
+.aura span{ position:absolute; border-radius:50%; filter:blur(110px); opacity:.22; }
+.aura .a1{ width:60vmax; height:60vmax; left:-20vmax; top:-18vmax; background:var(--glow3); }
+.aura .a2{ width:45vmax; height:45vmax; right:-15vmax; bottom:-15vmax; background:var(--glow1); }
+.aura .a3{ width:32vmax; height:32vmax; right:8vmax; top:-10vmax; background:var(--glow2); opacity:.14; }
+.stars{ position:fixed; inset:0; z-index:0; pointer-events:none; }
+.star{ position:absolute; border-radius:50%; background:#fff;
+  box-shadow:0 0 4px 1px rgba(255,255,255,.9), 0 0 10px 2px rgba(201,151,63,.55);
+  animation:twinkle 3.4s ease-in-out infinite; }
+@keyframes twinkle{
+  0%,100%{ opacity:.25; transform:scale(.7); }
+  50%{ opacity:1; transform:scale(1.15); }
+}
+.grain{ position:fixed; inset:0; z-index:1; pointer-events:none;
+  background-image:radial-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size:3px 3px; mix-blend-mode:overlay; opacity:.5; }
+
+.stage{ position:relative; z-index:2; height:100vh; width:100vw; display:flex;
+  align-items:center; justify-content:center; padding:0; }
+.scene{ perspective:2600px; width:100vw; height:100vh; }
+.book{ position:relative; width:100%; height:100%; transform-style:preserve-3d; }
+
+.page{
+  position:absolute; inset:0; background:linear-gradient(120deg,var(--paper),var(--paper-shade));
+  border-radius:0; transform-origin:left center; backface-visibility:hidden;
+  box-shadow:0 30px 60px -20px rgba(0,0,0,.55), inset -14px 0 30px -20px rgba(0,0,0,.18);
+  transition:transform 1s cubic-bezier(.6,0,.35,1);
+  overflow:auto; -ms-overflow-style:none; scrollbar-width:none;
+}
+.page::-webkit-scrollbar{ display:none; }
+.page::before{
+  content:''; position:absolute; left:0; top:0; bottom:0; width:16px;
+  background:linear-gradient(90deg,var(--gold),rgba(185,134,47,0));
+  opacity:.65;
+}
+.page-stars{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+.page-inner{ position:relative; z-index:1; padding:clamp(48px,7vh,90px) clamp(24px,6vw,58px) clamp(90px,12vh,120px) clamp(38px,7vw,72px); min-height:100%;
+  padding-top:calc(clamp(48px,7vh,90px) + env(safe-area-inset-top,0px)); }
+.page.turned{ transform:rotateY(-178deg); }
+
+.kicker{ font-size:14px; letter-spacing:.14em; color:var(--gold); font-weight:600; text-transform:uppercase; }
+h1.title{ font-family:var(--serif); font-weight:600; font-size:clamp(38px,6vw,64px); line-height:1.02; margin:10px 0 6px; color:var(--ink); text-shadow:0 0 30px rgba(255,255,255,.35); }
+h2.page-title{ font-family:var(--serif); font-style:italic; font-weight:400; font-size:clamp(34px,5.2vw,56px); color:var(--ink); margin-bottom:18px; text-shadow:0 0 20px rgba(255,255,255,.25); }
+p.lede{ font-size:clamp(18px,2.2vw,24px); color:var(--ink-soft); line-height:1.75; max-width:52ch; }
+.role{ font-family:var(--serif); font-style:italic; font-size:clamp(18px,2.2vw,22px); color:var(--gold-soft); margin-bottom:16px; }
+
+.cover-inner{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; min-height:100%; padding-left:clamp(24px,8vw,80px); padding-right:clamp(24px,8vw,80px);
+}
+.cover-inner .lede{ max-width:60ch; }
+.cover-inner h1.title{ font-size:clamp(56px,11vw,120px); }
+.cover-inner .role{ font-size:clamp(20px,3vw,28px); }
+
+.cover-foot{ display:flex; align-items:center; gap:10px; margin-top:30px; color:var(--ink-soft); font-size:13px; }
+.cover-foot .line{ width:34px; height:1px; background:var(--gold); }
+
+.facts{ margin-top:22px; display:grid; grid-template-columns:auto 1fr; gap:9px 18px; max-width:46ch; }
+.facts dt{ font-size:14px; letter-spacing:.06em; color:var(--gold); text-transform:uppercase; }
+.facts dd{ font-size:20px; color:var(--ink); }
+
+.skill-row{ margin-bottom:20px; max-width:52ch; }
+.skill-row .lbl{ display:flex; justify-content:space-between; font-size:18px; margin-bottom:6px; }
+.skill-row .lbl b{ font-weight:600; }
+.skill-row .lbl span{ color:var(--ink-soft); font-size:15px; }
+.track{ height:5px; background:rgba(255,255,255,.12); border-radius:5px; overflow:hidden; }
+.track i{ display:block; height:100%; background:linear-gradient(90deg,var(--gold),#7a4a1f); }
+
+.proj{ padding:14px 0; border-bottom:1px solid rgba(255,255,255,.14); max-width:56ch; }
+.proj:last-child{ border-bottom:none; }
+.proj h3{ font-family:var(--serif); font-size:26px; font-weight:600; margin-bottom:4px; }
+.proj p{ font-size:17px; color:var(--ink-soft); line-height:1.6; margin-bottom:8px; }
+.proj .tags{ display:flex; gap:6px; margin-bottom:8px; }
+.proj .tags span{ font-size:13px; padding:3px 8px; border:1px solid rgba(255,255,255,.2); border-radius:20px; color:var(--ink-soft); }
+.proj button{ font-family:var(--sans); font-size:16px; background:none; border:none; color:var(--gold-soft); font-weight:600; cursor:pointer; padding:0; }
+.proj button:hover{ text-decoration:underline; }
+
+form{ display:flex; flex-direction:column; gap:12px; max-width:48ch; margin-top:6px; }
+form input, form textarea{
+  font-family:var(--sans); font-size:17px; padding:12px 14px; border:1px solid rgba(255,255,255,.2);
+  background:rgba(255,255,255,.06); border-radius:8px; color:var(--ink); outline-offset:2px;
+}
+form input::placeholder, form textarea::placeholder{ color:var(--ink-soft); }
+form textarea{ resize:none; height:90px; }
+form button{
+  align-self:flex-start; font-family:var(--sans); font-size:17px; font-weight:600; padding:11px 20px;
+  border:none; border-radius:8px; background:linear-gradient(90deg,var(--gold),#7a4a1f); color:#fff; cursor:pointer;
+}
+.closing{ margin-top:22px; font-size:16px; color:var(--ink-soft); }
+
+.nav{ position:fixed; left:50%; bottom:calc(22px + env(safe-area-inset-bottom,0px));
+  transform:translateX(-50%); z-index:5; display:flex; align-items:center; gap:18px;
+  background:rgba(0,0,0,.35); backdrop-filter:blur(10px); padding:9px 16px; border-radius:999px;
+  border:1px solid rgba(255,255,255,.12); }
+.nav button{
+  width:42px; height:42px; border-radius:50%; border:1px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.06); color:#f2ecff; font-size:18px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; transition:.2s;
+}
+.nav button:hover:not(:disabled){ background:rgba(255,255,255,.16); }
+.nav button:disabled{ opacity:.25; cursor:default; }
+.dots{ display:flex; gap:8px; }
+.dots i{ width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,.25); }
+.dots i.on{ background:var(--gold-soft); }
+
+@media (max-width:600px){
+  .scene{ max-height:68vh; }
+  .page-inner{ padding:26px 22px 20px 34px; }
+}
+</style>
+</head>
+<body>
+
+<div class="aura"><span class="a1"></span><span class="a2"></span><span class="a3"></span></div>
+<div class="stars" id="stars"></div>
+<div class="grain"></div>
+
+<div class="stage">
+  <div class="scene">
+    <div class="book" id="book">
+
+      <div class="page" data-i="0">
+        <div class="page-stars"></div>
+        <div class="page-inner cover-inner">
+          <p class="kicker">Portfolio · 2026</p>
+          <h1 class="title">Risolat</h1>
+          <p class="role">Web Developer</p>
+          <p class="lede">Men zamonaviy, chiroyli va foydalanuvchiga qulay web-saytlar yaratishga qiziqaman. Bu kitobni varaqlab, ishlarim bilan tanishing.</p>
+          <div class="cover-foot"><span class="line"></span> Davom etish uchun sahifani varaqlang →</div>
+        </div>
+      </div>
+
+      <div class="page" data-i="1">
+        <div class="page-stars"></div>
+        <div class="page-inner">
+          <p class="kicker">01 — Men haqimda</p>
+          <h2 class="page-title">Tanishib qo'yaylik</h2>
+          <p class="lede">Men web dasturlashni o'rganayotgan dasturchiman. Zamonaviy web texnologiyalar yordamida yangi loyihalar yaratishni yaxshi ko'raman.</p>
+          <dl class="facts">
+            <dt>Ism</dt><dd>Risolat</dd>
+            <dt>Yo'nalish</dt><dd>Web Development</dd>
+            <dt>Til</dt><dd>O'zbek tili</dd>
+            <dt>Maqsad</dt><dd>Professional Developer</dd>
+          </dl>
+        </div>
+      </div>
+
+      <div class="page" data-i="2">
+        <div class="page-stars"></div>
+        <div class="page-inner">
+          <p class="kicker">02 — Ko'nikmalar</p>
+          <h2 class="page-title">Nimalarni bilaman</h2>
+          <div class="skill-row"><div class="lbl"><b>HTML</b><span>Web sahifalar yaratish</span></div><div class="track"><i style="width:90%"></i></div></div>
+          <div class="skill-row"><div class="lbl"><b>CSS</b><span>Zamonaviy dizayn</span></div><div class="track"><i style="width:85%"></i></div></div>
+          <div class="skill-row"><div class="lbl"><b>JavaScript</b><span>Interaktiv saytlar</span></div><div class="track"><i style="width:65%"></i></div></div>
+          <div class="skill-row"><div class="lbl"><b>Python</b><span>Dasturlash va backend</span></div><div class="track"><i style="width:70%"></i></div></div>
+        </div>
+      </div>
+
+      <div class="page" data-i="3">
+        <div class="page-stars"></div>
+        <div class="page-inner">
+          <p class="kicker">03 — Loyihalar</p>
+          <h2 class="page-title">Ustida ishlaganlarim</h2>
+          <div class="proj">
+            <h3>Robot Project</h3>
+            <p>Robot mavzusida yaratilgan zamonaviy web loyiha.</p>
+            <div class="tags"><span>HTML</span><span>CSS</span><span>JS</span></div>
+            <button onclick="showMessage('Robot Project')">Loyihani ko'rish →</button>
+          </div>
+          <div class="proj">
+            <h3>Online Shop</h3>
+            <p>Mahsulotlar uchun zamonaviy internet do'kon.</p>
+            <div class="tags"><span>HTML</span><span>CSS</span><span>JS</span></div>
+            <button onclick="showMessage('Online Shop')">Loyihani ko'rish →</button>
+          </div>
+          <div class="proj">
+            <h3>Book Website</h3>
+            <p>Kitoblarni izlash va ko'rish uchun web-sayt.</p>
+            <div class="tags"><span>Python</span><span>Flask</span></div>
+            <button onclick="showMessage('Book Website')">Loyihani ko'rish →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="page" data-i="4">
+        <div class="page-stars"></div>
+        <div class="page-inner">
+          <p class="kicker">04 — Aloqa</p>
+          <h2 class="page-title">Men bilan bog'laning</h2>
+          <form onsubmit="sendMessage(event)">
+            <input type="text" id="name" placeholder="Ismingiz" required>
+            <input type="email" placeholder="Email" required>
+            <input type="tel" placeholder="Telefon raqami">
+            <textarea placeholder="Xabaringiz"></textarea>
+            <button type="submit">Xabar yuborish →</button>
+          </form>
+          <p class="closing">© 2026 Risolat. All rights reserved.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="nav">
+    <button id="prevBtn" aria-label="Oldingi sahifa">‹</button>
+    <div class="dots" id="dots"></div>
+    <button id="nextBtn" aria-label="Keyingi sahifa">›</button>
+  </div>
+</div>
+
+<script>
+const starsEl = document.getElementById('stars');
+const STAR_COUNT = 140;
+for(let i=0;i<STAR_COUNT;i++){
+  const s = document.createElement('div');
+  s.className = 'star';
+  const size = (Math.random()*2 + 0.6).toFixed(1);
+  s.style.width = size + 'px';
+  s.style.height = size + 'px';
+  s.style.left = (Math.random()*100) + 'vw';
+  s.style.top = (Math.random()*100) + 'vh';
+  s.style.animationDelay = (Math.random()*3.4).toFixed(2) + 's';
+  s.style.animationDuration = (2.4 + Math.random()*2.6).toFixed(2) + 's';
+  starsEl.appendChild(s);
+}
+
+document.querySelectorAll('.page-stars').forEach(container=>{
+  const n = 34;
+  for(let i=0;i<n;i++){
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = (Math.random()*1.8 + 0.6).toFixed(1);
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
+    s.style.left = (Math.random()*100) + '%';
+    s.style.top = (Math.random()*100) + '%';
+    s.style.animationDelay = (Math.random()*3.4).toFixed(2) + 's';
+    s.style.animationDuration = (2.4 + Math.random()*2.6).toFixed(2) + 's';
+    container.appendChild(s);
+  }
+});
+
+const total = 5;
+let current = 0;
+const dotsEl = document.getElementById('dots');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+for(let i=0;i<total;i++){
+  const d = document.createElement('i');
+  dotsEl.appendChild(d);
+}
+
+function render(){
+  document.querySelectorAll('.page').forEach(p=>{
+    const i = +p.dataset.i;
+    p.style.zIndex = i < current ? i : (total - i);
+    p.classList.toggle('turned', i < current);
+  });
+  [...dotsEl.children].forEach((d,i)=> d.classList.toggle('on', i===current));
+  prevBtn.disabled = current===0;
+  nextBtn.disabled = current===total-1;
+}
+
+function next(){ if(current<total-1){ current++; render(); } }
+function prev(){ if(current>0){ current--; render(); } }
+
+nextBtn.addEventListener('click', next);
+prevBtn.addEventListener('click', prev);
+document.addEventListener('keydown', e=>{
+  if(e.key==='ArrowRight') next();
+  if(e.key==='ArrowLeft') prev();
+});
+
+function showMessage(project){
+  alert(project + " loyihasi tez orada qo'shiladi! 🚀");
+}
+function sendMessage(event){
+  event.preventDefault();
+  const name = document.getElementById('name').value;
+  alert("Rahmat, " + name + "! Xabaringiz qabul qilindi. 😊");
+  event.target.reset();
+}
+
+render();
+</script>
+</body>
+</html>
